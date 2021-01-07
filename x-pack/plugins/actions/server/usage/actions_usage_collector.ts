@@ -16,6 +16,7 @@ const byTypeSchema: MakeSchemaFrom<ActionsUsage>['count_by_type'] = {
   __email: { type: 'long' },
   __index: { type: 'long' },
   __pagerduty: { type: 'long' },
+  __swimlane: { type: 'long' },
   '__server-log': { type: 'long' },
   __slack: { type: 'long' },
   __webhook: { type: 'long' },
@@ -26,11 +27,14 @@ const byTypeSchema: MakeSchemaFrom<ActionsUsage>['count_by_type'] = {
 
 export function createActionsUsageCollector(
   usageCollection: UsageCollectionSetup,
-  taskManager: TaskManagerStartContract
+  taskManager: Promise<TaskManagerStartContract>
 ) {
   return usageCollection.makeUsageCollector<ActionsUsage>({
     type: 'actions',
-    isReady: () => true,
+    isReady: async () => {
+      await taskManager;
+      return true;
+    },
     schema: {
       count_total: { type: 'long' },
       count_active_total: { type: 'long' },
@@ -79,7 +83,7 @@ async function getLatestTaskState(taskManager: TaskManagerStartContract) {
 
 export function registerActionsUsageCollector(
   usageCollection: UsageCollectionSetup,
-  taskManager: TaskManagerStartContract
+  taskManager: Promise<TaskManagerStartContract>
 ) {
   const collector = createActionsUsageCollector(usageCollection, taskManager);
   usageCollection.registerCollector(collector);

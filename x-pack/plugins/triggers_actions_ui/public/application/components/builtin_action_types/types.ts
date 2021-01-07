@@ -38,6 +38,13 @@ export interface PagerDutyActionParams {
   class?: string;
 }
 
+export interface SwimlaneActionParams {
+  alertName: string;
+  tags: string;
+  comments: string;
+  severity: SeverityActionOptions;
+}
+
 export interface IndexActionParams {
   documents: Array<Record<string, any>>;
 }
@@ -57,6 +64,10 @@ export interface ServerLogActionParams {
 }
 
 export interface SlackActionParams {
+  message: string;
+}
+
+export interface TeamsActionParams {
   message: string;
 }
 
@@ -100,6 +111,21 @@ export type PagerDutyActionConnector = UserConfiguredActionConnector<
   PagerDutySecrets
 >;
 
+export interface SwimlaneConfig {
+  apiUrl: string;
+  appId: string;
+  username: string;
+}
+
+export interface SwimlaneSecrets {
+  apiToken: string;
+}
+
+export type SwimlaneActionConnector = UserConfiguredActionConnector<
+  SwimlaneConfig,
+  SwimlaneSecrets
+>;
+
 export interface SlackSecrets {
   webhookUrl: string;
 }
@@ -119,3 +145,9 @@ export interface WebhookSecrets {
 }
 
 export type WebhookActionConnector = UserConfiguredActionConnector<WebhookConfig, WebhookSecrets>;
+
+export interface TeamsSecrets {
+  webhookUrl: string;
+}
+
+export type TeamsActionConnector = UserConfiguredActionConnector<unknown, TeamsSecrets>;

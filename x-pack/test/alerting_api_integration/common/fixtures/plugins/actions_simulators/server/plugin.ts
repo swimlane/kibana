@@ -11,6 +11,7 @@ import { PluginSetupContract as FeaturesPluginSetup } from '../../../../../../..
 import { PluginSetupContract as ActionsPluginSetupContract } from '../../../../../../../plugins/actions/server/plugin';
 import { ActionType } from '../../../../../../../plugins/actions/server';
 import { initPlugin as initPagerduty } from './pagerduty_simulation';
+import { initPlugin as initSwimlane } from './swimlane_simulation';
 import { initPlugin as initServiceNow } from './servicenow_simulation';
 import { initPlugin as initJira } from './jira_simulation';
 import { initPlugin as initResilient } from './resilient_simulation';
@@ -21,6 +22,7 @@ export const NAME = 'actions-FTS-external-service-simulators';
 
 export enum ExternalServiceSimulator {
   PAGERDUTY = 'pagerduty',
+  SWIMLANE = 'swimlane',
   SERVICENOW = 'servicenow',
   SLACK = 'slack',
   JIRA = 'jira',
@@ -37,6 +39,9 @@ export function getAllExternalServiceSimulatorPaths(): string[] {
     getExternalServiceSimulatorPath(service)
   );
   allPaths.push(`/api/_${NAME}/${ExternalServiceSimulator.SERVICENOW}/api/now/v2/table/incident`);
+  allPaths.push(
+    `/api/_${NAME}/${ExternalServiceSimulator.SERVICENOW}/api/now/v2/table/sys_dictionary`
+  );
   allPaths.push(`/api/_${NAME}/${ExternalServiceSimulator.JIRA}/rest/api/2/issue`);
   allPaths.push(`/api/_${NAME}/${ExternalServiceSimulator.JIRA}/rest/api/2/createmeta`);
   allPaths.push(`/api/_${NAME}/${ExternalServiceSimulator.RESILIENT}/rest/orgs/201/incidents`);
@@ -102,6 +107,7 @@ export class FixturePlugin implements Plugin<void, void, FixtureSetupDeps, Fixtu
     const router: IRouter = core.http.createRouter();
 
     initPagerduty(router, getExternalServiceSimulatorPath(ExternalServiceSimulator.PAGERDUTY));
+    initSwimlane(router, getExternalServiceSimulatorPath(ExternalServiceSimulator.SWIMLANE));
     initServiceNow(router, getExternalServiceSimulatorPath(ExternalServiceSimulator.SERVICENOW));
     initJira(router, getExternalServiceSimulatorPath(ExternalServiceSimulator.JIRA));
     initResilient(router, getExternalServiceSimulatorPath(ExternalServiceSimulator.RESILIENT));

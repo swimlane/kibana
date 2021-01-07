@@ -18,6 +18,10 @@
 # default to `true` starting in Kibana 7.0.
 #server.rewriteBasePath: false
 
+# Specifies the public URL at which Kibana is available for end users. If
+# `server.basePath` is configured this URL should end with the same basePath.
+#server.publicBaseUrl: ""
+
 # The maximum payload size in bytes for incoming server requests.
 #server.maxPayloadBytes: 1048576
 
@@ -80,7 +84,7 @@
 #elasticsearch.logQueries: false
 
 # Specifies the path where Kibana creates the process ID file.
-#pid.file: /var/run/kibana.pid
+#pid.file: /run/kibana/kibana.pid
 
 # Enables you to specify a file where Kibana stores log output.
 #logging.dest: stdout
@@ -102,3 +106,5 @@
 # Specifies locale to be used for all localizable strings, dates and number formats.
 # Supported languages are the following: English - en , by default , Chinese - zh-CN .
 #i18n.locale: "en"
+xpack.actions.rejectUnauthorized: false
+xpack.actions.proxyRejectUnauthorizedCertificates: false

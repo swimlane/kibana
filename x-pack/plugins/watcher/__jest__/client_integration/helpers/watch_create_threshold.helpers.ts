@@ -3,7 +3,7 @@
  * or more contributor license agreements. Licensed under the Elastic License;
  * you may not use this file except in compliance with the Elastic License.
  */
-import { registerTestBed, TestBed, TestBedConfig } from '../../../../../test_utils';
+import { registerTestBed, TestBed, TestBedConfig } from '@kbn/test/jest';
 import { WatchEdit } from '../../../public/application/sections/watch_edit/components/watch_edit';
 import { registerRouter } from '../../../public/application/lib/navigation';
 import { ROUTES, WATCH_TYPES } from '../../../common/constants';
@@ -25,7 +25,7 @@ export interface WatchCreateThresholdTestBed extends TestBed<WatchCreateThreshol
     clickSubmitButton: () => void;
     clickAddActionButton: () => void;
     clickActionLink: (
-      actionType: 'logging' | 'email' | 'webhook' | 'index' | 'slack' | 'jira' | 'pagerduty'
+      actionType: 'logging' | 'email' | 'webhook' | 'index' | 'slack' | 'jira' | 'pagerduty' | 'swimlane'
     ) => void;
     clickSimulateButton: () => void;
   };
@@ -51,7 +51,7 @@ export const setup = async (): Promise<WatchCreateThresholdTestBed> => {
   };
 
   const clickActionLink = (
-    actionType: 'logging' | 'email' | 'webhook' | 'index' | 'slack' | 'jira' | 'pagerduty'
+    actionType: 'logging' | 'email' | 'webhook' | 'index' | 'slack' | 'jira' | 'pagerduty' | 'swimlane'
   ) => {
     testBed.find(`${actionType}ActionButton`).simulate('click');
   };
